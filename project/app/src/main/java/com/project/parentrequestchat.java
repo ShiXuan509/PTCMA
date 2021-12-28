@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +35,7 @@ import java.util.Date;
 public class parentrequestchat extends AppCompatActivity {
 
     EditText getmessage;
-    ImageView btnsendmsg, btnBack;
+    ImageView btnsendmsg, btnBack,btnUpload;
     TextView roomTitle;
     //androidx.appcompat.widget.Toolbar toolbarofspecificchat;
     //TextView nameofspecificuser;
@@ -42,6 +47,8 @@ public class parentrequestchat extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     String senderroom, receiverroom;
 
+    private static final int Gallery_Code=1;
+    private static final int Camera_Code=2;
     RecyclerView messagerecyclerview;
     String currenttime;
     Calendar calendar;
@@ -50,6 +57,8 @@ public class parentrequestchat extends AppCompatActivity {
     MessagesAdapter messagesAdapter;
     ArrayList<Messages> messagesArrayList;
 
+    Uri fileUri;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,7 @@ public class parentrequestchat extends AppCompatActivity {
         getmessage = findViewById(R.id.message);
         btnsendmsg = findViewById(R.id.btnSend);
         btnBack = findViewById(R.id.btnBack);
+        btnUpload=findViewById(R.id.btnUpload);
         intent = getIntent();
         messagesArrayList = new ArrayList<>();
         messagerecyclerview = findViewById(R.id.recyclerView);
@@ -87,6 +97,21 @@ public class parentrequestchat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "New Photo");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From your photo");
+                fileUri = getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values
+                );
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
+                startActivityForResult(intent,Camera_Code);
             }
         });
 
