@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/colour"
+    tools:context=".TeacherResult">
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="150dp"
+        android:text="Result"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
+    <ImageButton
+        android:id="@+id/imageButtonResult"
+        android:layout_width="330dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/result"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <EditText
+        android:id="@+id/teacherName3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonResult"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enter Teacher Name"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/txtDate3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/teacherName3"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enter Today's Date"
+        android:textSize="20dp" />
+
+
+    <EditText
+        android:id="@+id/txtResult"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDate3"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enter Text"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/sendResult"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtResult"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="90dp"
+        android:text="Send" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigator"
+        app:itemBackground="@color/purple_500"
+        app:itemTextColor="@drawable/serlector"
+        app:itemIconTint="@drawable/serlector"
+        app:menu="@menu/menu"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/colour"
+    android:orientation="vertical"
+    tools:context=".teacherreplyrequest">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_name1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:queryHint="Search Name"
+        app:iconifiedByDefault="false"
+        android:layout_margin="2dp"
+        app:actionViewClass="androidx.appcompat.widget.SearchView">
+    </androidx.appcompat.widget.SearchView>
+
+    <ListView
+        android:id="@+id/userListListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp" />
+
+</LinearLayout>

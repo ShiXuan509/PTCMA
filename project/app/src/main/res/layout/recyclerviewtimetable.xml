@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="6dp"
+    android:elevation="80dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/recyclerviewtimetable"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/tvClass"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/tvClass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="className"
+            android:textColor="#FF000000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recyclerviewtimetable"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="description"
+            android:textColor="#FF000000"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/delete_timeTable"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="300dp"
+            android:src="@drawable/ic_delete" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

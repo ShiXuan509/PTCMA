@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/colour"
+    tools:context=".parentmenu">
+
+    <Button
+        android:id="@+id/btnTimeTable"
+        android:background="@drawable/button_box"
+        android:layout_gravity="center"
+        android:layout_marginTop="160dp"
+        android:gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Time Table" />
+
+    <Button
+        android:id="@+id/btnNews"
+        android:background="@drawable/button_box"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="News and Annoucement"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:id="@+id/btnRequestHolidayForKids"
+        android:background="@drawable/button_box"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Holiday Request" />
+
+    <Button
+        android:id="@+id/btnSendRequestAndInquiry"
+        android:background="@drawable/button_box"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Request and Inquiry" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:background="@drawable/button_box"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+
+
+</LinearLayout>

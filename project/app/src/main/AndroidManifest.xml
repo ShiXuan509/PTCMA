@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo1"
+        android:label="PTCMA"
+        android:roundIcon="@drawable/logo1"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Project">
+        <activity
+            android:name=".teacherreplyrequest"
+            android:exported="true" />
+        <activity
+            android:name=".teacherrequestchat"
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".parentrequestchat"
+            android:exported="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".parentsendrequest"
+            android:exported="true" />
+        <activity
+            android:name=".teacherreceiveholiday"
+            android:exported="true" />
+        <activity
+            android:name=".parentrequestholiday"
+            android:exported="true" />
+        <activity
+            android:name=".parentreceiveholiday"
+            android:exported="true" />
+        <activity
+            android:name=".TeacherResult"
+            android:exported="true" />
+        <activity
+            android:name=".ParentResult"
+            android:exported="true" />
+        <activity
+            android:name=".ParentNotices"
+            android:exported="true" />
+        <activity
+            android:name=".TeacherNotices"
+            android:exported="true" />
+        <activity
+            android:name=".parentviewnews"
+            android:exported="true" />
+        <activity
+            android:name=".teachersendnews"
+            android:exported="true" />
+        <activity
+            android:name=".parentviewtimetable"
+            android:exported="true" />
+        <activity
+            android:name=".teachermanagetimetable"
+            android:exported="true" />
+        <activity
+            android:name=".teachermenu"
+            android:exported="true" />
+        <activity
+            android:name=".parentmenu"
+            android:exported="true" />
+        <activity
+            android:name=".admindeleteteacher"
+            android:exported="true" />
+        <activity
+            android:name=".admindeleteparent"
+            android:exported="true" />
+        <activity
+            android:name=".adminmenu"
+            android:exported="true" />
+        <activity
+            android:name=".AddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".teacher"
+            android:exported="true" />
+        <activity
+            android:name=".parent"
+            android:exported="true" />
+        <activity
+            android:name=".admin"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

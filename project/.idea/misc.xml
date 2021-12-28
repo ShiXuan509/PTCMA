@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/drawable/colour.xml" value="0.1" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_add.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_admin.xml" value="0.2" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_admindeleteteacher.xml" value="0.1331521739130435" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_adminmenu.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parent.xml" value="0.25" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parent_notices.xml" value="0.18070652173913043" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parent_result.xml" value="0.1286231884057971" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentmenu.xml" value="0.15942028985507245" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentreceiveholiday.xml" value="0.10416666666666667" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentrequestchat.xml" value="0.1890625" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentrequestholiday.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentsendrequest.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentviewnews.xml" value="0.1286231884057971" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_parentviewtimetable.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacher.xml" value="0.22" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacher_notices.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacher_result.xml" value="0.11730072463768115" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teachermanagetimetable.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teachermenu.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacherreceiveholiday.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacherreplyrequest.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teacherrequestchat.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/activity_teachersendnews.xml" value="0.203125" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/admindeleteadd.xml" value="0.1272644927536232" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/receiverchatlayout.xml" value="0.11096014492753623" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewewsulr.xml" value="0.15760869565217392" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewholidays.xml" value="0.14221014492753623" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewnews.xml" value="0.14447463768115942" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewnotices.xml" value="0.18070652173913043" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewresult.xml" value="0.15760869565217392" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/recyclerviewtimetable.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/senderchatlayout.xml" value="0.11096014492753623" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/layout/update_popup.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/Ms Hong/AndroidStudioProjects/project/app/src/main/res/menu/menu.xml" value="0.203125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
