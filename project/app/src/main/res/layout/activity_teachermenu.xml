@@ -10,12 +10,41 @@
 
     <Button
         android:id="@+id/btnManageTimeTable"
-        android:background="@drawable/button_box"
-        android:layout_marginTop="170dp"
-        android:layout_gravity="center"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Time Table" />
+        android:layout_gravity="center"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/button_box"
+        android:text="Time Table"
+        app:iconTint="#9C27B0" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/manageTimeTableGroup"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnViewTimeTable"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_box"
+            android:text="View"
+            app:iconTint="#9C27B0" />
+
+        <Button
+            android:id="@+id/btnAddTimeTable"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_box"
+            android:text="Add"
+            android:translationX="50dp"
+            app:iconTint="#9C27B0" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <Button
         android:id="@+id/btnSendNews"
