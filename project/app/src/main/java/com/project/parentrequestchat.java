@@ -19,9 +19,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,6 +48,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -73,9 +77,8 @@ public class parentrequestchat extends AppCompatActivity {
     private static final int Gallery_Code=1;
     private static final int Camera_Code=2;
 
-    String[] cameraPermissions;
-    String[] storagePermissions;
-    String currentPhotoPath;
+    //String[] cameraPermissions;
+    //String[] storagePermissions;
 
     RecyclerView messagerecyclerview;
     String currenttime;
@@ -136,7 +139,6 @@ public class parentrequestchat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickFromCamera();
-                //showImagePickDialog();
             }
         });
 
@@ -293,66 +295,6 @@ public class parentrequestchat extends AppCompatActivity {
             }
         });
     }
-
-    /*private void showImagePickDialog()
-    {
-        String[] options ={"Camera", "Gallery"};
-
-        AlertDialog.Builder builder= new AlertDialog.Builder(this);
-        builder.setTitle("Choose image from");
-        builder.setItems(options,((dialog, which) -> {
-            if(which==0)
-            {
-                /*if(!checkCameraPermission())
-                {
-                    requestCameraPermission();
-                }else{
-                    pickFromCamera();
-                }
-            }
-            if(which==1)
-            {
-                if(!checkStoragePermission())
-                {
-                    requestStoragePermission();
-                }else
-                {
-                    pickFromGallery();
-                }
-            }
-        }));
-    }
-
-    private void pickFromGallery()
-    {
-        Intent intent= new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, Gallery_Code);
-    }
-
-
-    private boolean checkStoragePermission()
-    {
-        boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) ==(PackageManager.PERMISSION_GRANTED);
-        return result;
-    }
-
-    private void requestStoragePermission()
-    {
-        ActivityCompat.requestPermissions(this, storagePermissions, Camera_Code);
-    }
-
-    private boolean checkCameraPermission()
-    {
-        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==(PackageManager.PERMISSION_GRANTED);
-        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== (PackageManager.PERMISSION_GRANTED);
-        return result && result1;
-    }
-
-    private void requestCameraPermission()
-    {
-        ActivityCompat.requestPermissions(this, cameraPermissions, Camera_Code);
-    }*/
 
     private void pickFromCamera()
     {
@@ -533,70 +475,29 @@ public class parentrequestchat extends AppCompatActivity {
         }
 
 
-        /*Date date = new Date();
-        String timeStamp =""+System.currentTimeMillis();
-        String fileNameAndPath= "Parent Send Request and Inquiry";
-
-        Bitmap bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(),fileUri);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte[] data =baos.toByteArray();
-        //StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
-        //StorageReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry").child(senderroom);
-        ref.putBytes(data)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while(!uriTask.isSuccessful());
-                        String downloadUri =uriTask.getResult().toString();
-
-                        if(uriTask.isSuccessful())
-                        {
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry");
-                            //Messages messages = new Messages(enteredmessage,"image",sendername,receivername,date.getTime(),currenttime);
-                            HashMap<String,Object> hashMap = new HashMap<>();
-                            //hashMap.put("sender", );
-                            hashMap.put("message", downloadUri);
-                            hashMap.put("timestamp", timeStamp);
-                            hashMap.put("type","image");
-                            databaseReference.child(senderroom).push().setValue(hashMap);
-                            //DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry").child(senderroom);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                    }
-                });
-    }*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== RESULT_OK){
             if(requestCode== Camera_Code){
-                //File f = new File(currentPhotoPath);
-                //Bitmap photo = (Bitmap) data.getExtras().get("data");
-                //Uri tempUri = getImageUri(getApplicationContext(), photo);
-                //Toast.makeText(LiveImage.this,"Here "+ tempUri, Toast.LENGTH_LONG).show();
-                //Toast.makeText(this, "Real path for URI : "+ getRealPathFromURI(tempUri), Toast.LENGTH_SHORT).show();
-                String file = fileUri.toString();
-                //Bitmap photo = (Bitmap) data.getExtras().get("file");
-                //Uri tempUri = data.getData();
-                //Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                ///Uri contentUri =data.getData();
-                //mediaScanIntent.setData(fileUri);
-                //this.sendBroadcast(mediaScanIntent);
+                String file = null;
+                try {
+                    ParcelFileDescriptor parcelFileDescriptor =
+                            getContentResolver().openFileDescriptor(fileUri, "r");
+                    FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+                    Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                    parcelFileDescriptor.close();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-
-                //selectedImage.setImageURI(Uri.fromFile(f));
-                //fileUri = data.getData();
-
-
+                    byte[] byteFormat = stream.toByteArray();
+                    String encodedImage = android.util.Base64.encodeToString(byteFormat, Base64.NO_WRAP);
+                    file = encodedImage;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 sendImageMessage(file);
+
             }
         }
     }

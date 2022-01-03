@@ -1,6 +1,8 @@
 package com.project;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class MessagesAdapter extends RecyclerView.Adapter {
 
@@ -68,7 +71,11 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.textViewmessage.setVisibility(View.GONE);
                 viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
 
-                //Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
+                String codedImage = messages.getMessage();
+                byte[] decodedString = android.util.Base64.decode(codedImage, android.util.Base64.DEFAULT);
+
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.imageViewmessage.setImageBitmap(decodedByte);
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
             }
 
@@ -89,12 +96,13 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.textViewmessage.setVisibility(View.GONE);
                 viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
 
-                //Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
+                String codedImage = messages.getMessage();
+                byte[] decodedString = android.util.Base64.decode(codedImage, android.util.Base64.DEFAULT);
+
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.imageViewmessage.setImageBitmap(decodedByte);
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
             }
-            /*ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            viewHolder.textViewmessage.setText(messages.getMessage());
-            viewHolder.timeofmessage.setText(messages.getCurrenttime());*/
         }
     }
 
