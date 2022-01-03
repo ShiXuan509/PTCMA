@@ -79,7 +79,7 @@ public class teacherrequestchat extends AppCompatActivity {
     MessagesAdapter messagesAdapter;
     ArrayList<Messages> messagesArrayList;
 
-    Uri fileUri= null;
+    Uri fileUri=null;
     StorageReference storageReference;
 
     @Override
@@ -384,13 +384,15 @@ public class teacherrequestchat extends AppCompatActivity {
         startActivityForResult(intent,Camera_Code);
     }
 
-    private void sendImageMessage(Uri fileUri){
+    /*private void sendImageMessage(Uri fileUri){
         String[] senderEmail = firebaseAuth.getCurrentUser().getEmail().split("@");
         String senderMail = senderEmail[0];
 
         ProgressDialog progressDialog= new ProgressDialog(this);
 
-        if (fileUri!=null){
+        if (fileUri==null){
+            Toast.makeText(getApplicationContext(), "No Image", Toast.LENGTH_SHORT).show();
+        }else{
             progressDialog.setTitle("Uploading");
             progressDialog.show();
             Date date = new Date();
@@ -481,7 +483,174 @@ public class teacherrequestchat extends AppCompatActivity {
                 }
             });
         }
+    }*/
+    private void sendImageMessage(String file){
+        String[] senderEmail = firebaseAuth.getCurrentUser().getEmail().split("@");
+        String senderMail = senderEmail[0];
+        enteredmessage= file;
+        if (file.isEmpty()){
+            Toast.makeText(getApplicationContext(), "No Image", Toast.LENGTH_SHORT).show();
+        }else{
+            Date date = new Date();
+            currenttime = simpleDateFormat.format(calendar.getTime());
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Teacher").child(senderMail);
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        sendername = snapshot.child("name").getValue().toString();
+                        Messages messages = new Messages(enteredmessage,"image",sendername,receivername,date.getTime(),currenttime);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                .child(senderroom);
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                            .child(senderroom)
+                                            .child("messages")
+                                            .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            getmessage.setText(null);
+                                        }
+                                    });
+                                } else {
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                            .child(receiverroom);
+                                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.exists()){
+                                                FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                        .child(receiverroom)
+                                                        .child("messages")
+                                                        .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        getmessage.setText(null);
+                                                    }
+                                                });
+                                            } else {
+                                                FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                        .child(senderroom)
+                                                        .child("messages")
+                                                        .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        getmessage.setText(null);
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
+            /*StorageReference filepath= firebaseStorage.getReference().child("imagePost").child(fileUri.getLastPathSegment());
+            filepath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            enteredmessage=task.getResult().toString();
+                            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Parent").child(senderMail);
+                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()){
+                                        sendername = snapshot.child("name").getValue().toString();
+                                        Messages messages = new Messages(enteredmessage,"image",sendername,receivername,date.getTime(),currenttime);
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                .child(senderroom);
+                                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists()) {
+                                                    FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                            .child(senderroom)
+                                                            .child("messages")
+                                                            .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            getmessage.setText(null);
+                                                        }
+                                                    });
+                                                } else {
+                                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                            .child(receiverroom);
+                                                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()){
+                                                                FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                                        .child(receiverroom)
+                                                                        .child("messages")
+                                                                        .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        getmessage.setText(null);
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                                        .child(senderroom)
+                                                                        .child("messages")
+                                                                        .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        getmessage.setText(null);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                            progressDialog.dismiss();
+
+                        }
+                    });
+                }
+            });*/
 
     /*private void sendImageMessage(Uri fileUri){
         ProgressDialog progressDialog= new ProgressDialog(this);
@@ -533,8 +702,8 @@ public class teacherrequestchat extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== RESULT_OK){
             if(requestCode== Camera_Code){
-                fileUri = data.getData();
-                sendImageMessage(fileUri);
+                String file = fileUri.toString();
+                sendImageMessage(file);
 
             }
         }

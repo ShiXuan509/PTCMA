@@ -5,36 +5,36 @@
     android:padding="2dp">
 
     <RelativeLayout
+        android:id="@+id/layourtMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/senderchatdrawable"
-        android:id="@+id/layourtMsg">
+        android:background="@drawable/senderchatdrawable">
 
         <TextView
+            android:id="@+id/senderMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sender Message Display Here"
-            android:textSize="18sp"
-            android:textColor="@color/black"
             android:paddingLeft="8dp"
+            android:paddingTop="8dp"
             android:paddingRight="40dp"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:id="@+id/senderMsg"
-            >
-        </TextView>
+            android:text="Sender Message Display Here"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="gone">
+            </TextView>
 
         <ImageView
-            android:id = "@+id/senderImg"
+            android:id="@+id/senderImg"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:adjustViewBounds="true"
             android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:background="@drawable/senderchatdrawable"
             android:padding="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_image"
-            android:background="@drawable/senderchatdrawable"/>
+            android:src="@drawable/ic_image" />
 
         <TextView
             android:id="@+id/timeofMsg"

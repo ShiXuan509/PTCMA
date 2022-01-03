@@ -53,7 +53,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         String type = messagesArrayList.get(position).getType();
 
         if (getItemViewType(position) == ITEM_SEND){
-            //if(type.equals("text"))
+            if(type.equals("text"))
             {
                 SenderViewHolder viewHolder = (SenderViewHolder) holder;
                 viewHolder.textViewmessage.setVisibility(View.VISIBLE);
@@ -62,19 +62,19 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.textViewmessage.setText(messages.getMessage());
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
             }
-            /*else
+            else
             {
                 SenderViewHolder viewHolder = (SenderViewHolder) holder;
                 viewHolder.textViewmessage.setVisibility(View.GONE);
                 viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
 
-                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
+                //Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
-            }*/
+            }
 
         } else {
 
-            //if(type.equals("text"))
+            if(type.equals("text"))
             {
                 ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
                 viewHolder.textViewmessage.setVisibility(View.VISIBLE);
@@ -83,16 +83,16 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.textViewmessage.setText(messages.getMessage());
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
             }
-            /*else
+            else
             {
                 ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
                 viewHolder.textViewmessage.setVisibility(View.GONE);
                 viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
 
-                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
+                //Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image).into(viewHolder.imageViewmessage);
                 viewHolder.timeofmessage.setText(messages.getCurrenttime());
             }
-            ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
+            /*ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
             viewHolder.textViewmessage.setText(messages.getMessage());
             viewHolder.timeofmessage.setText(messages.getCurrenttime());*/
         }

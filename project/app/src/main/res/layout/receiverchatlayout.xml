@@ -27,14 +27,14 @@
         </TextView>
 
         <ImageView
-            android:id = "@+id/senderImg"
+            android:id="@+id/senderImg"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/receiverchatdrawable"
             android:padding="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_image"
-            android:background="@drawable/receiverchatdrawable"/>
+            android:src="@drawable/ic_image" />
 
 
         <TextView

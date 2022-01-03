@@ -1,5 +1,7 @@
 package com.project;
 
+import static android.provider.MediaStore.Images.Media.getBitmap;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -71,6 +75,7 @@ public class parentrequestchat extends AppCompatActivity {
 
     String[] cameraPermissions;
     String[] storagePermissions;
+    String currentPhotoPath;
 
     RecyclerView messagerecyclerview;
     String currenttime;
@@ -94,10 +99,6 @@ public class parentrequestchat extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnUpload=findViewById(R.id.btnUpload);
 
-        //cameraPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        //storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        //databaseReference = firebaseDatabase.getReference().child("Parent Send Request and Inquiry");
-
         intent = getIntent();
         messagesArrayList = new ArrayList<>();
         messagerecyclerview = findViewById(R.id.recyclerView);
@@ -109,9 +110,12 @@ public class parentrequestchat extends AppCompatActivity {
         calendar = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("hh:mm");
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         senderuid = firebaseAuth.getCurrentUser().getUid();
         String[] senderEmail = firebaseAuth.getCurrentUser().getEmail().split("@");
         String senderMail = senderEmail[0];
+
 
         receiveruid = getIntent().getStringExtra("receiveruid");
         receivername = getIntent().getStringExtra("name");
@@ -363,20 +367,86 @@ public class parentrequestchat extends AppCompatActivity {
         startActivityForResult(intent,Camera_Code);
     }
 
-    private void sendImageMessage(Uri fileUri){
+    private void sendImageMessage(String file){
         String[] senderEmail = firebaseAuth.getCurrentUser().getEmail().split("@");
         String senderMail = senderEmail[0];
+        enteredmessage= file;
+            if (file.isEmpty()){
+                Toast.makeText(getApplicationContext(), "No Message", Toast.LENGTH_SHORT).show();
+            }else{
+                Date date = new Date();
+                currenttime = simpleDateFormat.format(calendar.getTime());
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Parent").child(senderMail);
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            sendername = snapshot.child("name").getValue().toString();
+                            Messages messages = new Messages(enteredmessage,"image",sendername,receivername,date.getTime(),currenttime);
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                    .child(senderroom);
+                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                .child(senderroom)
+                                                .child("messages")
+                                                .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                getmessage.setText(null);
+                                            }
+                                        });
+                                    } else {
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                .child(receiverroom);
+                                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists()){
+                                                    FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                            .child(receiverroom)
+                                                            .child("messages")
+                                                            .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            getmessage.setText(null);
+                                                        }
+                                                    });
+                                                } else {
+                                                    FirebaseDatabase.getInstance().getReference().child("Parent Send Request and Inquiry")
+                                                            .child(senderroom)
+                                                            .child("messages")
+                                                            .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            getmessage.setText(null);
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-        ProgressDialog progressDialog= new ProgressDialog(this);
+                                            }
+                                        });
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-        if (fileUri!=null){
+                                }
+                            });
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            progressDialog.setTitle("Uploading");
-            progressDialog.show();
-            Date date = new Date();
-            currenttime = simpleDateFormat.format(calendar.getTime());
-
-            StorageReference filepath= firebaseStorage.getReference().child("imagePost").child(fileUri.getLastPathSegment());
+                    }
+                });
+            }
+            /*StorageReference filepath= firebaseStorage.getReference().child("imagePost").child(fileUri.getLastPathSegment());
             filepath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -459,11 +529,8 @@ public class parentrequestchat extends AppCompatActivity {
                         }
                     });
                 }
-            });
+            });*/
         }
-    }
-
-
 
 
         /*Date date = new Date();
@@ -511,12 +578,28 @@ public class parentrequestchat extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== RESULT_OK){
             if(requestCode== Camera_Code){
-                fileUri = data.getData();
-                sendImageMessage(fileUri);
+                //File f = new File(currentPhotoPath);
+                //Bitmap photo = (Bitmap) data.getExtras().get("data");
+                //Uri tempUri = getImageUri(getApplicationContext(), photo);
+                //Toast.makeText(LiveImage.this,"Here "+ tempUri, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Real path for URI : "+ getRealPathFromURI(tempUri), Toast.LENGTH_SHORT).show();
+                String file = fileUri.toString();
+                //Bitmap photo = (Bitmap) data.getExtras().get("file");
+                //Uri tempUri = data.getData();
+                //Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                ///Uri contentUri =data.getData();
+                //mediaScanIntent.setData(fileUri);
+                //this.sendBroadcast(mediaScanIntent);
+
+
+                //selectedImage.setImageURI(Uri.fromFile(f));
+                //fileUri = data.getData();
+
+
+                sendImageMessage(file);
             }
         }
     }
-
 
 
     @Override
