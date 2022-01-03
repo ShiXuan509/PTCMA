@@ -2,7 +2,7 @@ package com.project;
 
 public class Messages {
 
-    String message;
+    String message,type;
     String senderName, receiverName;
     long timestamp;
     String currenttime;
@@ -12,13 +12,15 @@ public class Messages {
 
     }
 
-    public Messages(String message, String senderName, String receiverName, long timestamp, String currenttime) {
+    public Messages(String message, String type, String senderName, String receiverName, long timestamp, String currenttime) {
         this.message = message;
+        this.type = type;
         this.senderName = senderName;
         this.receiverName = receiverName;
         this.timestamp = timestamp;
         this.currenttime = currenttime;
     }
+
 
     public String getMessage() {
         return message;
@@ -26,6 +28,14 @@ public class Messages {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getSenderName() {

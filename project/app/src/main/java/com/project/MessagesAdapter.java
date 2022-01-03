@@ -1,10 +1,13 @@
 package com.project;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,8 +19,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class MessagesAdapter extends RecyclerView.Adapter {
 
@@ -48,15 +53,56 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Messages messages = messagesArrayList.get(position);
+        String type = messagesArrayList.get(position).getType();
 
         if (getItemViewType(position) == ITEM_SEND){
-            SenderViewHolder viewHolder = (SenderViewHolder) holder;
-            viewHolder.textViewmessage.setText(messages.getMessage());
-            viewHolder.timeofmessage.setText(messages.getCurrenttime());
+            if(type.equals("text"))
+            {
+                SenderViewHolder viewHolder = (SenderViewHolder) holder;
+                viewHolder.textViewmessage.setVisibility(View.VISIBLE);
+                viewHolder.imageViewmessage.setVisibility(View.GONE);
+
+                viewHolder.textViewmessage.setText(messages.getMessage());
+                viewHolder.timeofmessage.setText(messages.getCurrenttime());
+            }
+            else
+            {
+                SenderViewHolder viewHolder = (SenderViewHolder) holder;
+                viewHolder.textViewmessage.setVisibility(View.GONE);
+                viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
+
+                String codedImage = messages.getMessage();
+                byte[] decodedString = android.util.Base64.decode(codedImage, android.util.Base64.DEFAULT);
+
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.imageViewmessage.setImageBitmap(decodedByte);
+                viewHolder.timeofmessage.setText(messages.getCurrenttime());
+            }
+
         } else {
-            ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            viewHolder.textViewmessage.setText(messages.getMessage());
-            viewHolder.timeofmessage.setText(messages.getCurrenttime());
+
+            if(type.equals("text"))
+            {
+                ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
+                viewHolder.textViewmessage.setVisibility(View.VISIBLE);
+                viewHolder.imageViewmessage.setVisibility(View.GONE);
+
+                viewHolder.textViewmessage.setText(messages.getMessage());
+                viewHolder.timeofmessage.setText(messages.getCurrenttime());
+            }
+            else
+            {
+                ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
+                viewHolder.textViewmessage.setVisibility(View.GONE);
+                viewHolder.imageViewmessage.setVisibility(View.VISIBLE);
+
+                String codedImage = messages.getMessage();
+                byte[] decodedString = android.util.Base64.decode(codedImage, android.util.Base64.DEFAULT);
+
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.imageViewmessage.setImageBitmap(decodedByte);
+                viewHolder.timeofmessage.setText(messages.getCurrenttime());
+            }
         }
     }
 
@@ -94,11 +140,13 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     class SenderViewHolder extends RecyclerView.ViewHolder{
 
         TextView textViewmessage;
+        ImageView imageViewmessage;
         TextView timeofmessage;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewmessage = itemView.findViewById(R.id.senderMsg);
+            imageViewmessage = itemView.findViewById(R.id.senderImg);
             timeofmessage = itemView.findViewById(R.id.timeofMsg);
         }
     }
@@ -106,11 +154,13 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     class ReceiverViewHolder extends RecyclerView.ViewHolder{
 
         TextView textViewmessage;
+        ImageView imageViewmessage;
         TextView timeofmessage;
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewmessage = itemView.findViewById(R.id.senderMsg);
+            imageViewmessage = itemView.findViewById(R.id.senderImg);
             timeofmessage = itemView.findViewById(R.id.timeofMsg);
         }
     }
