@@ -1,17 +1,17 @@
 package com.project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class adminmenu extends AppCompatActivity {
 
-    private Button AddDeleteParent, AddDeleteTchr;
+    private Button AddDeleteParent, AddDeleteTchr, SchoolLocationManagement;
     private Button Logout;
 
     @Override
@@ -21,6 +21,7 @@ public class adminmenu extends AppCompatActivity {
 
         AddDeleteParent = (Button) findViewById(R.id.btnAddDeleteParent);
         AddDeleteTchr = (Button) findViewById(R.id.btnAddDeleteTeacher);
+        SchoolLocationManagement = (Button) findViewById(R.id.btnSchoolLocation);
         Logout = (Button) findViewById(R.id.btnAdminLogout);
 
         AddDeleteTchr.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +36,14 @@ public class adminmenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(adminmenu.this, admindeleteparent.class);
+                startActivity(intent);
+            }
+        });
+
+        SchoolLocationManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(adminmenu.this, adminLocationManagement.class);
                 startActivity(intent);
             }
         });
