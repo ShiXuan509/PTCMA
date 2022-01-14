@@ -34,6 +34,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +49,8 @@ public class adminLocationManagement extends FragmentActivity implements OnMapRe
     FloatingActionButton fab;
     EditText locSearch;
     ImageView searchIcon;
+    DatabaseReference firebase;
+    LatLng defaultLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +60,13 @@ public class adminLocationManagement extends FragmentActivity implements OnMapRe
         fab = findViewById(R.id.fab);
         locSearch = findViewById(R.id.et_search);
         searchIcon = findViewById(R.id.search_icon);
+        firebase = FirebaseDatabase.getInstance().getReference();
 
         if(isGPSEnabled())
         {
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
+            getSavedLocation();
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +145,12 @@ public class adminLocationManagement extends FragmentActivity implements OnMapRe
             public void onSuccess(Location location) {
                 gotoLocation(location.getLatitude(), location.getLongitude());
                 Context context = getApplicationContext();
+
+                com.project.Address address = new com.project.Address();
+                address.setLatitude(String.valueOf(location.getLatitude()));
+                address.setLongitude(String.valueOf(location.getLongitude()));
+
+                firebase.child("Location").child("address").setValue(address);
                 Toast.makeText(context, String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()), Toast.LENGTH_SHORT).show();
             }
         });
@@ -150,14 +165,36 @@ public class adminLocationManagement extends FragmentActivity implements OnMapRe
         map.addMarker(new MarkerOptions().position(currentLocation));
     }
 
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        LatLng defaultLocation = new LatLng(3.137730, 101.684260);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(defaultLocation, 18);
+        defaultLocation = new LatLng(3.137730, 101.684260);
         map.addMarker(new MarkerOptions().position(defaultLocation).title("Kuala Lumpur"));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(defaultLocation, 18);
         map.moveCamera(cameraUpdate);
+    }
+
+    private void getSavedLocation()
+    {
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("Location").child("address");
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    String latitude = snapshot.child("latitude").getValue().toString();
+                    String longitude = snapshot.child("longitude").getValue().toString();
+
+                    defaultLocation = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
+                    map.addMarker(new MarkerOptions().position(defaultLocation).title("Current Location"));
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(defaultLocation, 18);
+                    map.moveCamera(cameraUpdate);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     @Override
@@ -173,18 +210,14 @@ public class adminLocationManagement extends FragmentActivity implements OnMapRe
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 9001)
-        {
+        if (requestCode == 9001) {
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
             boolean providerEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-            if(providerEnabled)
-            {
+            if (providerEnabled) {
                 Toast.makeText(this, "GPS is enable", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "GPS is not enable", Toast.LENGTH_SHORT).show();
             }
         }
